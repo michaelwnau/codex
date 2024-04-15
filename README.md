@@ -1,4 +1,4 @@
-(https://static.streamlit.io/badges/streamlit_badge_black_white.svg)
+![Made with Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)
 
 # Codex
 
