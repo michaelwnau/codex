@@ -71,7 +71,7 @@ def handle_question(question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Chat with multiple PDFs",page_icon=":books:")
+    st.set_page_config(page_title="Codex is a GUI to query a PDF repository",page_icon=":books:")
     st.write(css,unsafe_allow_html=True)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
@@ -79,8 +79,8 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history=None
 
-    st.header("Chat with multiple PDFs :books:")
-    question=st.text_input("Ask question from your document:")
+    st.header("Codex is a GUI to query a PDF repository")
+    question=st.text_input("Ask question from your documents:")
     if question:
         handle_question(question)
     with st.sidebar:
