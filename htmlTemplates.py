@@ -1,5 +1,13 @@
 css = '''
 <style>
+
+body {
+    background: linear-gradient(to right, #8a2be2, #4b0082); /* Ultraviolet purple gradient */
+    height: 100vh;
+    margin: 0;
+    color: white;
+}
+
 .chat-message {
     padding: 1.5rem;
     border-radius: 0.5rem;
