@@ -4,7 +4,7 @@
 
 ## Overview
 
-This document provides detailed instructions for setting up and running the Codex app using Docker. Codex app is a Streamlit GUI designed for document query, generation, and Retrieval-Augmented Generation (RAG) use cases.
+This document provides detailed instructions for setting up and running the Codex app using Docker. Codex app is a Streamlit GUI designed for document query, generation, and Retrieval-Augmented Generation (RAG) use cases. The current release only supports document query on PDFs. More file types will be added with the next release of Codex and will include support for Qdrant, a vector similarity search engine.
 
 ## Prerequisites
 
