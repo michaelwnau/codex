@@ -47,7 +47,7 @@ def get_vectorstore(chunks):
 
 # generating conversation chain
 def get_conversationchain(vectorstore):
-    llm=ChatOpenAI(temperature=0.2)
+    llm=ChatOpenAI(temperature=0.1)
     memory = ConversationBufferMemory(memory_key='chat_history',
                                       return_messages=True,
                                       output_key='answer') # using conversation buffer memory to hold past information
