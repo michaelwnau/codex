@@ -20,6 +20,7 @@ chatpdf = "^2023.4.25.9.25.56"
 pdfreader = "^0.1.12"
 pypdf2 = "^3.0.1"
 faiss-cpu = "^1.8.0"
+ruff = "^0.3.7"
 
 
 [build-system]
