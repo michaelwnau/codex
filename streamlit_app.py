@@ -1,3 +1,5 @@
+pip install streamlit-chat
+
 import os
 import tempfile
 import streamlit as st
