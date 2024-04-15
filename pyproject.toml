@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "codex"
+version = "0.1.0"
+description = "A Streamlit GUI for document query, generation, and RAG use cases."
+authors = ["Michael Nau <michaelwnau@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+streamlit = "^1.33.0"
+langchain = "^0.1.16"
+openai = "^1.17.1"
+llama-index = "^0.10.29"
+trl = "^0.8.3"
+qdrant-client = "^1.8.2"
+qdrant-tools = "^0.0.4"
+transformers = "^4.39.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
