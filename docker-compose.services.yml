@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: codex_app
+    ports:
+      - "8501:8501" # Default port for Streamlit
+    depends_on:
+      - pdf_vector_service
+    restart: unless-stopped
+
+  pdf_vector_service:
+    image: vectorstore_service_image
+    container_name: vectorstore_service
+    expose:
+      - "5000" # Assuming the vector store service runs on port 5000
+    environment:
+      - VSTORE_ENV=production
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
