@@ -1,9 +1,6 @@
 # Use an official Python runtime as a parent image
 FROM python:3.12-slim
 
-# Set the working directory in the container
-WORKDIR /app
-
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -18,14 +15,17 @@ RUN apt-get update \
 # Install Poetry
 RUN pip install "poetry==$POETRY_VERSION"
 
-# Optional install six if dependencies require it
-#RUN pip install six
-
-# Debugging
-RUN poetry debug info
+# Set the working directory in the container
+WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
+
+# Optional install six if dependencies require it
+# RUN pip install six
+
+# Run Poetry debug to verify environment setup (this step is optional and can be removed once the build issues are resolved)
+RUN poetry debug info
 
 # Install project dependencies including dev dependencies for running Ruff
 RUN poetry config virtualenvs.create false \
