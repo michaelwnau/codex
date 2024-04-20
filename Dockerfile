@@ -7,7 +7,7 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV POETRY_VERSION 1.1.13
+ENV POETRY_VERSION 1.8.2
 
 # Install system dependencies
 RUN apt-get update \
