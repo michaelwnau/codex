@@ -18,6 +18,12 @@ RUN apt-get update \
 # Install Poetry
 RUN pip install "poetry==$POETRY_VERSION"
 
+# Optional install six if dependencies require it
+RUN pip install six
+
+# Debugging
+RUN poetry debug info
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
