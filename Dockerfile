@@ -19,7 +19,7 @@ RUN apt-get update \
 RUN pip install "poetry==$POETRY_VERSION"
 
 # Optional install six if dependencies require it
-RUN pip install six
+#RUN pip install six
 
 # Debugging
 RUN poetry debug info
