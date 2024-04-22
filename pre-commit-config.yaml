@@ -7,3 +7,12 @@
       args: [ --fix ]
     # Run the formatter.
     - id: ruff-format
+
+- repo: local
+  hooks:
+      - id: poetry-lock
+        name: Update Poetry Lock
+        entry: ./update_poetry_lock.sh
+        language: script
+        always_run: true
+        pass_filenames: false
