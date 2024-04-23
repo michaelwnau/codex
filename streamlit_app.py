@@ -71,36 +71,34 @@ def handle_question(question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Codex is a GUI to query a PDF repository",page_icon=":books:")
-    st.write(css,unsafe_allow_html=True)
-    if "conversation" not in st.session_state:
-        st.session_state.conversation=None
-
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history=None
+    st.set_page_config(page_title="Codex is a GUI to query a PDF repository", page_icon=":books:")
+    st.write(css, unsafe_allow_html=True)
 
     st.header("Codex is a GUI to query a PDF repository")
-    question=st.text_input("Ask question from your documents:")
-    if question:
-        handle_question(question)
+    question = st.text_input("Ask question from your documents:")
+
     with st.sidebar:
         st.subheader("Your documents")
-        docs=st.file_uploader("Upload your PDF here and click on 'Process'",accept_multiple_files=True)
+        docs = st.file_uploader("Upload your PDF here and click on 'Process'", accept_multiple_files=True)
         if st.button("Process"):
             with st.spinner("Processing"):
+                # Get the PDF text
+                raw_text = get_pdf_text(docs)
 
-                #get the pdf
-                raw_text=get_pdf_text(docs)
+                # Get the text chunks
+                text_chunks = get_chunks(raw_text)
 
-                #get the text chunks
-                text_chunks=get_chunks(raw_text)
+                # Create vectorstore
+                vectorstore = get_vectorstore(text_chunks)
 
-                #create vectorstore
-                vectorstore=get_vectorstore(text_chunks)
+                # Create conversation chain
+                st.session_state.conversation = get_conversationchain(vectorstore)
 
-                #create conversation chain
-                st.session_state.conversation=get_conversationchain(vectorstore)
-
+    # Ensure conversation chain is initialized before asking a question
+    if st.session_state.conversation and question:
+        handle_question(question)
+    elif question:
+        st.error("Please process your documents first to initialize the conversation system.")
 
 if __name__ == '__main__':
     main()
