@@ -1,15 +1,17 @@
 # Use an official Python runtime as a parent image
-FROM python:alpine
+FROM python:3.12-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV POETRY_VERSION 1.8.2
 
-# Install system dependencies using apk
-RUN apk update \
-    && apk add --no-cache gcc postgresql-dev \
-    && rm -rf /var/cache/apk/*
+# Install system dependencies
+RUN apt-get update \
+
+    && apt-get install -y --no-install-recommends gcc libpq-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
 RUN pip install "poetry==$POETRY_VERSION"
@@ -28,6 +30,7 @@ RUN poetry debug info
 
 # Install project dependencies including dev dependencies for running Ruff
 RUN poetry config virtualenvs.create false \
+
     && poetry install --no-interaction --no-ansi
 
 # Run Ruff to check for linting errors
