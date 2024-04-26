@@ -20,58 +20,75 @@ Standalone question:"""
 
 CUSTOM_QUESTION_PROMPT = PromptTemplate.from_template(custom_template)
 
+
 # extracting text from pdf
 def get_pdf_text(docs):
-    text=""
+    text = ""
     for pdf in docs:
-        pdf_reader=PdfReader(pdf)
+        pdf_reader = PdfReader(pdf)
         for page in pdf_reader.pages:
-            text+=page.extract_text()
+            text += page.extract_text()
     return text
+
 
 # converting text to chunks
 def get_chunks(raw_text):
-    text_splitter=CharacterTextSplitter(separator="\n",
-                                        chunk_size=1000,
-                                        chunk_overlap=200,
-                                        length_function=len)
-    chunks=text_splitter.split_text(raw_text)
+    text_splitter = CharacterTextSplitter(
+        separator="\n", chunk_size=1000, chunk_overlap=200, length_function=len
+    )
+    chunks = text_splitter.split_text(raw_text)
     return chunks
+
 
 # using all-MiniLm embeddings model and faiss to get vectorstore
 def get_vectorstore(chunks):
-    embeddings=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
-                                     model_kwargs={'device':'cpu'})
-    vectorstore=faiss.FAISS.from_texts(texts=chunks,embedding=embeddings)
+    embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2",
+        model_kwargs={"device": "cpu"},
+    )
+    vectorstore = faiss.FAISS.from_texts(texts=chunks, embedding=embeddings)
     return vectorstore
+
 
 # generating conversation chain
 def get_conversationchain(vectorstore):
-    llm=ChatOpenAI(temperature=0.1)
-    memory = ConversationBufferMemory(memory_key='chat_history',
-                                      return_messages=True,
-                                      output_key='answer') # using conversation buffer memory to hold past information
+    llm = ChatOpenAI(temperature=0.1)
+    memory = ConversationBufferMemory(
+        memory_key="chat_history", return_messages=True, output_key="answer"
+    )  # using conversation buffer memory to hold past information
     conversation_chain = ConversationalRetrievalChain.from_llm(
-                                llm=llm,
-                                retriever=vectorstore.as_retriever(),
-                                condense_question_prompt=CUSTOM_QUESTION_PROMPT,
-                                memory=memory)
+        llm=llm,
+        retriever=vectorstore.as_retriever(),
+        condense_question_prompt=CUSTOM_QUESTION_PROMPT,
+        memory=memory,
+    )
     return conversation_chain
+
 
 # generating response from user queries and displaying them accordingly
 def handle_question(question):
-    response=st.session_state.conversation({'question': question})
-    st.session_state.chat_history=response["chat_history"]
-    for i,msg in enumerate(st.session_state.chat_history):
-        if i%2==0:
-            st.write(user_template.replace("{{MSG}}",msg.content,),unsafe_allow_html=True)
+    response = st.session_state.conversation({"question": question})
+    st.session_state.chat_history = response["chat_history"]
+    for i, msg in enumerate(st.session_state.chat_history):
+        if i % 2 == 0:
+            st.write(
+                user_template.replace(
+                    "{{MSG}}",
+                    msg.content,
+                ),
+                unsafe_allow_html=True,
+            )
         else:
-            st.write(bot_template.replace("{{MSG}}",msg.content),unsafe_allow_html=True)
+            st.write(
+                bot_template.replace("{{MSG}}", msg.content), unsafe_allow_html=True
+            )
 
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Codex is a GUI to query a PDF repository", page_icon=":books:")
+    st.set_page_config(
+        page_title="Codex is a GUI to query a PDF repository", page_icon=":books:"
+    )
     st.write(css, unsafe_allow_html=True)
 
     st.header("Codex is a GUI to query a PDF repository")
@@ -79,7 +96,9 @@ def main():
 
     with st.sidebar:
         st.subheader("Your documents")
-        docs = st.file_uploader("Upload your PDF here and click on 'Process'", accept_multiple_files=True)
+        docs = st.file_uploader(
+            "Upload your PDF here and click on 'Process'", accept_multiple_files=True
+        )
         if st.button("Process"):
             with st.spinner("Processing"):
                 # Get the PDF text
@@ -98,7 +117,10 @@ def main():
     if st.session_state.conversation and question:
         handle_question(question)
     elif question:
-        st.error("Please process your documents first to initialize the conversation system.")
+        st.error(
+            "Please process your documents first to initialize the conversation system."
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

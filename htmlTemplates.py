@@ -1,4 +1,4 @@
-css = '''
+css = """
 <style>
 
 body {
@@ -35,23 +35,23 @@ body {
   padding: 0 1.5rem;
   color: #fff;
 }
-'''
+"""
 
-bot_template = '''
+bot_template = """
 <div class="chat-message bot">
     <div class="avatar">
         <!-- Placeholder for bot avatar, no image link provided -->
     </div>
     <div class="message">{{MSG}}</div>
 </div>
-'''
+"""
 
 
-user_template = '''
+user_template = """
 <div class="chat-message user">
     <div class="message" style="text-align:right">{{MSG}}</div>
     <div class="avatar">
         <!-- Placeholder for user avatar, no image link provided -->
     </div>
 </div>
-'''
+"""
