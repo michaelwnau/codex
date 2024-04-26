@@ -30,7 +30,6 @@ RUN poetry debug info
 
 # Install project dependencies including dev dependencies for running Ruff
 RUN poetry config virtualenvs.create false \
-
     && poetry install --no-interaction --no-ansi
 
 # Run Ruff to check for linting errors
