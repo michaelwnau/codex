@@ -22,8 +22,10 @@ cd codex
 ```
 
 ### Run the container
-`docker build -t codex .`
+```bash
+docker build -t codex .
 
 `docker run -p 8501:8501 codex`
+```
 
 Open a browser to http://localhost:8501
